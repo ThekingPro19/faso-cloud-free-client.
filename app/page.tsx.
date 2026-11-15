@@ -1,0 +1,64 @@
+app/page.tsx.
+
+import Link from "next/link";
+
+export default function HomePage() {
+  return (
+    <main>
+      <header className="header">
+        <div className="container header-content">
+          <div className="logo">FASO CLOUD FREE</div>
+          <Link className="btn" href="/login">
+            Connexion
+          </Link>
+        </div>
+      </header>
+
+      <section className="container hero">
+        <h1>
+          Bienvenue sur <span className="accent">FASO CLOUD Free</span>
+        </h1>
+        <p>
+          Votre espace numérique dédié aux services de minage Bitcoin.
+          Accédez à votre compte et suivez vos activités depuis une
+          interface simple et sécurisée.
+        </p>
+
+        <Link className="btn" href="/register">
+          Créer mon compte
+        </Link>
+      </section>
+
+      <section className="container grid">
+        <article className="card">
+          <h2>Mon compte</h2>
+          <p>
+            Créez votre compte personnel et gérez votre profil.
+          </p>
+        </article>
+
+        <article className="card">
+          <h2>Services Bitcoin</h2>
+          <p>
+            Découvrez les services et les possibilités de minage
+            proposés par la plateforme.
+          </p>
+        </article>
+
+        <article className="card">
+          <h2>Mon tableau de bord</h2>
+          <p>
+            Retrouvez vos informations personnelles dans votre espace
+            client après connexion.
+          </p>
+        </article>
+      </section>
+
+      <footer className="footer">
+        <div className="container">
+          © 2026 FASO CLOUD Free — Tous droits réservés.
+        </div>
+      </footer>
+    </main>
+  );
+}

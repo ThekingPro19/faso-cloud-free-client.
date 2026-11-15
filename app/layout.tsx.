@@ -1,0 +1,21 @@
+app/layout.tsx.
+
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "FASO CLOUD Free | Espace client",
+  description: "Votre espace client FASO CLOUD Free",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="fr">
+      <body>{children}</body>
+    </html>
+  );
+}

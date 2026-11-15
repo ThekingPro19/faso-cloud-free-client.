@@ -1,0 +1,96 @@
+app/register/page.tsx.
+
+"use client";
+
+import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import Link from "next/link";
+
+export default function RegisterPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!url || !key) {
+      setMessage("La configuration Supabase n'est pas encore terminée.");
+      setLoading(false);
+      return;
+    }
+
+    const supabase = createClient(url, key);
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      setMessage(error.message);
+    } else if (data.session) {
+      window.location.href = "/dashboard";
+    } else {
+      setMessage(
+        "Inscription réussie ! Consultez votre boîte e-mail pour confirmer votre adresse."
+      );
+    }
+
+    setLoading(false);
+  }
+
+  return (
+    <main className="container">
+      <section className="hero">
+        <h1>Créer un compte</h1>
+        <p>Rejoignez FASO CLOUD Free et créez votre espace client.</p>
+      </section>
+
+      <section className="card" style={{ maxWidth: 440, margin: "auto" }}>
+        <form onSubmit={handleRegister}>
+          <label htmlFor="email">Adresse e-mail</label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="votre@email.com"
+            style={{ width: "100%", padding: 13, margin: "10px 0 20px" }}
+          />
+
+          <label htmlFor="password">Mot de passe (8 caractères minimum)</label>
+          <input
+            id="password"
+            type="password"
+            minLength={8}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Créer un mot de passe"
+            style={{ width: "100%", padding: 13, margin: "10px 0 20px" }}
+          />
+
+          <button className="btn" type="submit" disabled={loading}>
+            {loading ? "Création..." : "Créer mon compte"}
+          </button>
+
+          <p role="status" style={{ marginTop: 18 }}>
+            {message}
+          </p>
+        </form>
+
+        <p style={{ marginTop: 24 }}>
+          Déjà inscrit ? <Link href="/login">Se connecter</Link>
+        </p>
+      </section>
+    </main>
+  );
+}
